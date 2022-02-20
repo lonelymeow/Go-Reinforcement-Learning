@@ -85,3 +85,55 @@ func (q *QLearningTD) Pi() {
 					fmt.Print(" L")
 				case Right:
 					fmt.Print(" R")
+				}
+			}
+		}
+		fmt.Println("")
+	}
+
+	fmt.Println("")
+}
+
+func main() {
+	rand.Seed(time.Now().Unix())
+	Q := QLearningTD{}
+	Q.Initialize()
+	Q.Start()
+	Q.Pi()
+}
+
+func PrintAction(action int) {
+	switch action {
+	case Up:
+		fmt.Print("U")
+	case Down:
+		fmt.Print("D")
+	case Left:
+		fmt.Print("L")
+	case Right:
+		fmt.Print("R")
+	}
+}
+
+func (q *QLearningTD) Start() {
+
+	episodes := 1000
+	for i := 0; i < episodes; i++ {
+		Sn := q.ini_n
+		Sm := q.ini_m
+
+		ep := 0
+
+		for Sn != q.ter_n || Sm != q.ter_m {
+			ep++
+			Action := q.ε_greedy(Sn, Sm)
+			r, _Sn, _Sm := q.TakeAction(Action, Sn, Sm)
+			QSA := q.GetQ(Sn, Sm, Action)
+			MaxAction := q.GetAction(_Sn, _Sm)
+			_QSA := q.GetQ(_Sn, _Sm, MaxAction)
+
+			Q := QSA + q.α*(r+q.γ*_QSA-QSA)
+			q.SetQ(Sn, Sm, Action, Q)
+
+			Sn = _Sn
+			Sm = _Sm
