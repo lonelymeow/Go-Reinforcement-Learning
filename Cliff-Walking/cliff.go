@@ -137,3 +137,44 @@ func (q *QLearningTD) Start() {
 
 			Sn = _Sn
 			Sm = _Sm
+		}
+	}
+
+}
+
+func (q *QLearningTD) SetQAll(n, m int, f float64) {
+	for a := 0; a < q.Qn; a++ {
+		q.Q[a][n*q.Sn+m] = f
+	}
+}
+
+func (q *QLearningTD) GetAction(n, m int) int {
+
+	Idx := q.GetIdx(n, m)
+	max := q.Q[0][Idx]
+	Action := 0
+	for i := 1; i < q.Qn; i++ {
+		if max < q.Q[i][Idx] {
+			max = q.Q[i][Idx]
+			Action = i
+		}
+	}
+
+	return Action
+}
+
+func (q *QLearningTD) ε_greedy(n, m int) int {
+
+	Action := q.GetAction(n, m)
+
+	if rand.Float64() < 1-q.ε {
+		return Action
+	}
+
+	return rand.Intn(q.Qn)
+
+}
+
+func (q *QLearningTD) TakeAction(a, n, m int) (float64, int, int) {
+
+	_n := n
