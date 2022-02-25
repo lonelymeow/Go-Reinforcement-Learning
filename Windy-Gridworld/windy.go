@@ -74,3 +74,54 @@ func (q *SarsaTD) Initialize() {
 }
 
 func main() {
+
+	rand.Seed(time.Now().Unix())
+	S := SarsaTD{}
+	S.Initialize()
+	S.Start()
+	S.Pi()
+}
+
+func (q *SarsaTD) GetQ(n, m, a int) float64 {
+
+	return q.Q[a][q.GetIdx(n, m)]
+}
+func (q *SarsaTD) SetQ(n, m, a int, f float64) {
+	q.Q[a][q.GetIdx(n, m)] = f
+}
+
+func (q *SarsaTD) TakeAction(a, n, m int) (float64, int, int) {
+
+	_n := n
+	_m := m
+
+	switch a {
+	case Up:
+		if n != q.Sn-1 {
+			_n = n + 1
+		}
+	case Down:
+		if n != 0 {
+			_n = n - 1
+		}
+	case Left:
+		if m != 0 {
+			_m = m - 1
+		}
+	case Right:
+		if m != q.Sm-1 {
+			_m = m + 1
+		}
+	}
+
+	_n += q.Storm[m]
+	if _n > q.Sn-1 {
+		_n = q.Sn - 1
+	}
+
+	if _n == q.ter_n && _m == q.ter_m {
+		return 0.0, q.ter_n, q.ter_m
+	}
+
+	return -1.0, _n, _m
+}
