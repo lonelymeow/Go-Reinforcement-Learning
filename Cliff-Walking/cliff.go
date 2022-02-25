@@ -178,3 +178,44 @@ func (q *QLearningTD) ε_greedy(n, m int) int {
 func (q *QLearningTD) TakeAction(a, n, m int) (float64, int, int) {
 
 	_n := n
+	_m := m
+
+	switch a {
+	case Up:
+		if n != q.Sn-1 {
+			_n = n + 1
+		}
+	case Down:
+		if n != 0 {
+			_n = n - 1
+		}
+	case Left:
+		if m != 0 {
+			_m = m - 1
+		}
+	case Right:
+		if m != q.Sm-1 {
+			_m = m + 1
+		}
+	}
+
+	if _n == q.ter_n && _m == q.ter_m {
+		return 0.0, q.ter_n, q.ter_m
+	} else if _n == 0 && _m >= 1 && _m < q.Sm-1 {
+		return -100.0, 0, 0
+	}
+
+	return -1.0, _n, _m
+}
+
+func (q *QLearningTD) GetQ(n, m, a int) float64 {
+
+	return q.Q[a][q.GetIdx(n, m)]
+}
+func (q *QLearningTD) SetQ(n, m, a int, f float64) {
+	q.Q[a][q.GetIdx(n, m)] = f
+}
+
+func (q *QLearningTD) GetIdx(n, m int) int {
+	return n*q.Sm + m
+}
