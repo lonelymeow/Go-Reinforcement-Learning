@@ -125,3 +125,44 @@ func (q *SarsaTD) TakeAction(a, n, m int) (float64, int, int) {
 
 	return -1.0, _n, _m
 }
+
+func (q *SarsaTD) ε_greedy(n, m int) int {
+
+	Action := q.GetAction(n, m)
+
+	if rand.Float64() < 1-q.ε {
+		return Action
+	}
+
+	return rand.Intn(q.Qn)
+
+}
+
+func (q *SarsaTD) GetIdx(n, m int) int {
+	return n*q.Sm + m
+}
+
+func (q *SarsaTD) GetAction(n, m int) int {
+
+	Idx := q.GetIdx(n, m)
+	max := q.Q[0][Idx]
+	Action := 0
+	for i := 1; i < q.Qn; i++ {
+		if max < q.Q[i][Idx] {
+			max = q.Q[i][Idx]
+			Action = i
+		}
+	}
+
+	return Action
+}
+
+func (q *SarsaTD) Pi() {
+	for i := q.Sn - 1; i >= 0; i-- {
+		for j := 0; j < q.Sm; j++ {
+			if i == q.ter_n && j == q.ter_m {
+				fmt.Print(" G")
+			} else {
+				switch q.GetAction(i, j) {
+				case Up:
+					fmt.Print(" U")
