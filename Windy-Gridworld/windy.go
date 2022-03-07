@@ -193,3 +193,23 @@ func (q *SarsaTD) Start() {
 		for Sn != q.ter_n || Sm != q.ter_m {
 			r, _Sn, _Sm := q.TakeAction(Action, Sn, Sm)
 			_Action := q.ε_greedy(_Sn, _Sm)
+
+			QSA := q.GetQ(Sn, Sm, Action)
+			_QSA := q.GetQ(_Sn, _Sm, _Action)
+
+			Q := QSA + q.α*(r+q.γ*_QSA-QSA)
+			q.SetQ(Sn, Sm, Action, Q)
+
+			Sn = _Sn
+			Sm = _Sm
+			Action = _Action
+		}
+	}
+
+}
+
+func (q *SarsaTD) SetQAll(n, m int, f float64) {
+	for a := 0; a < q.Qn; a++ {
+		q.Q[a][n*q.Sn+m] = f
+	}
+}
