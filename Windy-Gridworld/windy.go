@@ -166,3 +166,30 @@ func (q *SarsaTD) Pi() {
 				switch q.GetAction(i, j) {
 				case Up:
 					fmt.Print(" U")
+				case Down:
+					fmt.Print(" D")
+				case Left:
+					fmt.Print(" L")
+				case Right:
+					fmt.Print(" R")
+				}
+			}
+		}
+		fmt.Println("")
+	}
+	for i := 0; i < len(q.Storm); i++ {
+		fmt.Print(" ", q.Storm[i])
+	}
+	fmt.Println("")
+}
+
+func (q *SarsaTD) Start() {
+
+	episodes := 1000
+	for i := 0; i < episodes; i++ {
+		Sn := q.ini_n
+		Sm := q.ini_m
+		Action := q.ε_greedy(Sn, Sm)
+		for Sn != q.ter_n || Sm != q.ter_m {
+			r, _Sn, _Sm := q.TakeAction(Action, Sn, Sm)
+			_Action := q.ε_greedy(_Sn, _Sm)
