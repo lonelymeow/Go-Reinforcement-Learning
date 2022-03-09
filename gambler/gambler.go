@@ -72,3 +72,40 @@ func Value_iteration(V []float64) ([]float64, []float64) {
 		diff = 0
 		for s := 1; s < goal; s++ {
 			v := V[s]
+			V[s], _ = maxAction(s, V)
+			diff += math.Abs(v - V[s])
+		}
+	}
+
+	π := make([]float64, goal+1)
+
+	for s := 1; s < goal; s++ {
+		_, π[s] = maxAction(s, V)
+	}
+
+	return π, V
+}
+
+func maxAction(s int, V []float64) (float64, float64) {
+
+	n := int(math.Min(float64(s), float64(goal-s)))
+
+	max := ph*V[s] + (1-ph)*V[s]
+	idx := 0
+
+	for a := 1; a <= n; a++ {
+		c := ph*V[s+a] + (1-ph)*V[s-a]
+		if c > max {
+			max = c
+			idx = a
+		}
+	}
+
+	return max, float64(idx)
+}
+
+func generate_Values() []float64 {
+	V := make([]float64, goal+1)
+	V[goal] = 1
+	return V
+}
