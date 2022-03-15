@@ -179,3 +179,42 @@ func generate_probabilities(λ, max int) (float64, int) {
 func _poisson(λ int, n int) float64 {
 	return (math.Pow(float64(λ), float64(n)) / float64(factorial(n)) * math.Exp(float64(-λ)))
 }
+
+func poisson(λ int, n int) float64 {
+	r := 0.0
+	for i := 0; i <= n; i++ {
+		r += _poisson(λ, n)
+	}
+	return r
+}
+
+func get_reward(n, m int, a Action) float64 {
+
+	_n := n + a.action1
+	_m := m + a.action2
+
+	reward := math.Abs(float64(a.action1))
+
+	if employee_near_location_2 && reward > 0 {
+		reward--
+	}
+
+	reward = reward * reward_transferred_car
+
+	if _n > max_cars_overflow_parking_1 {
+		reward += reward_overflow_parking_1
+	}
+
+	if _m > max_cars_overflow_parking_2 {
+		reward += reward_overflow_parking_2
+	}
+
+	return reward
+}
+func get_all_states() Mat {
+	S := Mat{}
+	for i := 0; i <= max_car_location_1; i++ {
+		for j := 0; j <= max_car_location_2; j++ {
+			S[i][j] = State{V: 0, π: Action{action1: 0, action2: 0}}
+		}
+	}
