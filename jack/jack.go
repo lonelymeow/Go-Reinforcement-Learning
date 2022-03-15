@@ -123,3 +123,59 @@ func update_V(S Mat) (float64, Mat) {
 	}
 	return diff, S
 }
+
+func get_new_V(n, m int, S Mat) float64 {
+	income := 0.0
+	for _, a := range get_actions(n, m) {
+		income += update_SV(n, m, a, S)
+	}
+	return income
+}
+
+func update_SV(n, m int, a Action, S Mat) float64 {
+	income := get_reward(n, m, a)
+
+	_n := n + a.action1
+	_m := m + a.action2
+
+	if _n > max_car_location_1 {
+		_n = max_car_location_1
+		return 0.0
+	}
+	if _m > max_car_location_2 {
+		_m = max_car_location_2
+		return 0.0
+	}
+
+	λ_req_loc_1, req_cars_1 := generate_probabilities(λ_request_location_1, max_car_location_1)
+	λ_req_loc_2, req_cars_2 := generate_probabilities(λ_request_location_2, max_car_location_2)
+
+	λ_drf_loc_1, drf_cars_1 := generate_probabilities(λ_drop_off_location_1, 0)
+	λ_drf_loc_2, drf_cars_2 := generate_probabilities(λ_drop_off_location_2, 0)
+
+	p := λ_req_loc_1 * λ_req_loc_2 * λ_drf_loc_1 * λ_drf_loc_2
+
+	income += p * (float64(((req_cars_1 + req_cars_2 - drf_cars_1 - drf_cars_2) * reward_rented_car)) + γ*S[_n][_m].V)
+
+	return income
+
+}
+
+func generate_probabilities(λ, max int) (float64, int) {
+	n := 0
+	p := 0.0
+	for p < θ {
+		p = _poisson(λ, n)
+		n++
+	}
+
+	if max != 0 && n > max {
+		return p, max
+	}
+
+	return p, n - 1
+}
+
+func _poisson(λ int, n int) float64 {
+	return (math.Pow(float64(λ), float64(n)) / float64(factorial(n)) * math.Exp(float64(-λ)))
+}
