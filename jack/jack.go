@@ -218,3 +218,35 @@ func get_all_states() Mat {
 			S[i][j] = State{V: 0, π: Action{action1: 0, action2: 0}}
 		}
 	}
+	return S
+}
+
+func get_action(n1, n2 int) Action {
+	a := get_actions(n1, n2)
+	return a[rand.Intn(len(a))]
+}
+
+func get_actions(n1, n2 int) []Action {
+	vec := make([]Action, 1)
+	for i := 1; i <= n1; i++ {
+		vec = append(vec, Action{action1: -i, action2: i})
+	}
+	for i := 1; i <= n2; i++ {
+		vec = append(vec, Action{action1: i, action2: -i})
+	}
+
+	return vec
+}
+
+func factorial(n int) uint64 {
+	var factVal uint64 = 1
+	if n < 0 {
+		fmt.Print("Factorial of negative number doesn't exist.")
+	} else {
+		for i := 1; i <= n; i++ {
+			factVal *= uint64(i) // mismatched types int64 and int
+		}
+
+	}
+	return factVal /* return from function*/
+}
