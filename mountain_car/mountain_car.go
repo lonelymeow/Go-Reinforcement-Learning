@@ -54,3 +54,48 @@ func NewState() State {
 	s.min_position = -1.2
 	s.max_velocity = 0.07
 	s.min_velocity = -0.07
+	s.hash_table = make(map[string]int)
+	s.max_size = 2048
+	s.posScale = float64(s.v.Tilings) / (s.max_position - s.min_position)
+	s.velScale = float64(s.v.Tilings) / (s.max_velocity - s.min_velocity)
+	return s
+}
+
+func (s State) GetRandomFirstPosition() sarsa.State {
+	s.position = -0.5
+	s.velocity = 0
+	return s
+}
+func (s State) GetActions() []string {
+	actions := make([]string, 0)
+	actions = append(actions, "reverse")
+	actions = append(actions, "none")
+	actions = append(actions, "forward")
+	return actions
+}
+func (s State) GetActiveTiles(action string) [][]int {
+	_pos := math.Floor(s.position * s.posScale * float64(s.v.Tilings))
+
+	_vel := math.Floor(s.velocity * s.velScale * float64(s.v.Tilings))
+	tiles := make([][]int, 1)
+	tiles[0] = make([]int, 1)
+	for tile := 0; tile < s.v.Tilings; tile++ {
+		key := bytes.NewBufferString("") //this is the key that we'll use to save elements in our hash table
+
+		//Using all the info that we have of this state a unique key is made
+		key.WriteString(strconv.Itoa(tile))
+
+		div := math.Floor(((_pos + float64(tile)) / float64(s.v.Tilings))) //
+		key.WriteString(strconv.FormatFloat(div, 'f', -1, 64))
+
+		div2 := math.Floor(((_vel + 3*float64(tile)) / float64(s.v.Tilings)))
+		key.WriteString(strconv.FormatFloat(div2, 'f', -1, 64))
+
+		key.WriteString(action)
+
+		tiles[0] = append(tiles[0], s.Idx(key.String()))
+	}
+	return tiles
+}
+func (s State) InGoalState() bool {
+	return s.position >= s.max_position
