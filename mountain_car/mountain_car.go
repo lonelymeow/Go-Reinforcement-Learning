@@ -99,3 +99,51 @@ func (s State) GetActiveTiles(action string) [][]int {
 }
 func (s State) InGoalState() bool {
 	return s.position >= s.max_position
+}
+func (s State) TakeAction(action string) (sarsa.State, float64) {
+	val_action := 0
+	if action == "reverse" {
+		val_action = -1
+	}
+	if action == "forward" {
+		val_action = 1
+	}
+	newVelocity := s.velocity + 0.001*float64(val_action) - 0.0025*math.Cos(3*s.position)
+	//Velocity bounds
+	newVelocity = math.Min(math.Max(s.min_velocity, newVelocity), s.max_velocity)
+
+	newPosition := s.position + newVelocity
+	//Position bounds
+	newPosition = math.Min(math.Max(s.min_position, newPosition), s.max_position)
+	//reward's always -1
+	reward := -1.0
+
+	if newPosition == s.min_position {
+		newVelocity = 0.0
+	}
+	s.position = newPosition
+	s.velocity = newVelocity
+	return s, reward
+}
+
+//*************************************************************************************************************/
+func main() {
+	rand.Seed(time.Now().Unix())
+	state := NewState()
+	episodes := 2000
+	for episode := 0; episode < episodes; episode++ {
+		steps := sarsa.SemiGradientSarsa(state, getAction, state.v)
+		fmt.Println(episode, steps)
+	}
+
+}
+
+func getAction(state sarsa.State, vf *sarsa.ValueFunction) string {
+	values := make([]float64, 0)
+	actions := state.GetActions()
+	for _, action := range actions {
+		values = append(values, sarsa.ValueOf(state, action, vf))
+	}
+	//	fmt.Println("Actions: ", values)
+	ac := actions[getIdxMax(values)]
+	return ac
