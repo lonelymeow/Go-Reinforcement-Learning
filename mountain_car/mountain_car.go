@@ -147,3 +147,47 @@ func getAction(state sarsa.State, vf *sarsa.ValueFunction) string {
 	//	fmt.Println("Actions: ", values)
 	ac := actions[getIdxMax(values)]
 	return ac
+}
+
+func (s *State) Idx(key string) int {
+	idx, ok := s.hash_table[key]
+	//if the element is in the hast table the idx is returned
+	if ok {
+		return idx
+	}
+
+	//overflow control
+	if len(s.hash_table) >= s.max_size {
+		return hash(key) % len(s.hash_table)
+	}
+	//if the elemen is not in the hast table, the element is added.
+	s.hash_table[key] = len(s.hash_table)
+	return len(s.hash_table) - 1
+}
+
+func getIdxMax(slice []float64) int {
+	idx := 0
+	max := slice[idx]
+	//get the idx of the biggest element
+	for i := 1; i < len(slice); i++ {
+		if max < slice[i] {
+			idx = i
+			max = slice[i]
+		}
+		//If max and slice are equal, we randomly change so have more exploration in the algorithm
+		if max == slice[i] {
+			if rand.Float64() <= 0.5 {
+				idx = i
+				max = slice[i]
+			}
+		}
+	}
+	return idx
+}
+
+//hash function
+func hash(s string) int {
+	h := fnv.New32a()
+	h.Write([]byte(s))
+	return int(h.Sum32())
+}
