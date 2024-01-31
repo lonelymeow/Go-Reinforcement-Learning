@@ -1,4 +1,5 @@
 package sarsa
 
 type State interface {
-	GetRand
+	GetRandomFirstPosition() State
+	GetActions() []strin
