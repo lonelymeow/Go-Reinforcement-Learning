@@ -6,3 +6,7 @@ type State interface {
 	GetActiveTiles(string) [][]int
 	InGoalState() bool
 	TakeAction(string) (State, float64)
+}
+
+type ValueFunction struct {
+	Weights  []float64
