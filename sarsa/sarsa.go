@@ -4,4 +4,5 @@ type State interface {
 	GetRandomFirstPosition() State
 	GetActions() []string
 	GetActiveTiles(string) [][]int
-	InGoal
+	InGoalState() bool
+	TakeAction(string) (State, float64)
