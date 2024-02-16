@@ -10,3 +10,6 @@ type State interface {
 
 type ValueFunction struct {
 	Weights  []float64
+	Tilings  int
+	Alpha    float64
+	Features
