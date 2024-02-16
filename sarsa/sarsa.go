@@ -12,4 +12,8 @@ type ValueFunction struct {
 	Weights  []float64
 	Tilings  int
 	Alpha    float64
-	Features
+	Features int
+}
+
+//constructor
+func (v *ValueFun
