@@ -16,4 +16,6 @@ type ValueFunction struct {
 }
 
 //constructor
-func (v *ValueFunction) New(feature, max_size, tiling int, a
+func (v *ValueFunction) New(feature, max_size, tiling int, alpha float64) {
+
+	v.Weights = make
