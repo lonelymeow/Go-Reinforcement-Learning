@@ -18,4 +18,6 @@ type ValueFunction struct {
 //constructor
 func (v *ValueFunction) New(feature, max_size, tiling int, alpha float64) {
 
-	v.Weights = make
+	v.Weights = make([]float64, max_size)
+
+	v.Tilings =
