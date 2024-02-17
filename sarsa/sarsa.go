@@ -16,4 +16,4 @@ type ValueFunction struct {
 }
 
 //constructor
-func (v *ValueFun
+func (v *ValueFunction) New(feature, max_size, tiling int, a
