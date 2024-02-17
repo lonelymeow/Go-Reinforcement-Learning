@@ -20,4 +20,9 @@ func (v *ValueFunction) New(feature, max_size, tiling int, alpha float64) {
 
 	v.Weights = make([]float64, max_size)
 
-	v.Tilings =
+	v.Tilings = tiling
+	v.Alpha = alpha
+	v.Features = feature
+
+}
+
