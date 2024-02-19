@@ -26,4 +26,5 @@ func (v *ValueFunction) New(feature, max_size, tiling int, alpha float64) {
 
 }
 
-type ActionFunction func(State, *ValueFu
+type ActionFunction func(State, *ValueFunction) string
+type Valuefunction func(State, string, *Val
