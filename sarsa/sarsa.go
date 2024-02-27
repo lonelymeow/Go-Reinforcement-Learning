@@ -29,4 +29,6 @@ func (v *ValueFunction) New(feature, max_size, tiling int, alpha float64) {
 type ActionFunction func(State, *ValueFunction) string
 type Valuefunction func(State, string, *ValueFunction) float64
 
-func SemiGradientSarsa(state State, GetAction ActionFunctio
+func SemiGradientSarsa(state State, GetAction ActionFunction, valueFunction *ValueFunction) int {
+
+	currentSta
