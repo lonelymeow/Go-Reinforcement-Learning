@@ -27,4 +27,6 @@ func (v *ValueFunction) New(feature, max_size, tiling int, alpha float64) {
 }
 
 type ActionFunction func(State, *ValueFunction) string
-type Valuefunction func(State, string, *Val
+type Valuefunction func(State, string, *ValueFunction) float64
+
+func SemiGradie
