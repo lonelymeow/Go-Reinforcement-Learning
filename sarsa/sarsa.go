@@ -33,4 +33,4 @@ func SemiGradientSarsa(state State, GetAction ActionFunction, valueFunction *Val
 
 	currentState := state.GetRandomFirstPosition()
 
-	cur
+	currentAction := GetAction(state, valueFunction
