@@ -31,4 +31,6 @@ type Valuefunction func(State, string, *ValueFunction) float64
 
 func SemiGradientSarsa(state State, GetAction ActionFunction, valueFunction *ValueFunction) int {
 
-	currentSta
+	currentState := state.GetRandomFirstPosition()
+
+	cur
