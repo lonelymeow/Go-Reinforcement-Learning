@@ -40,4 +40,5 @@ func SemiGradientSarsa(state State, GetAction ActionFunction, valueFunction *Val
 
 		steps += 1
 		newState, reward := currentState.TakeAction(currentAction)
-		newAction := GetActio
+		newAction := GetAction(newState, valueFunction)
+		target :=
