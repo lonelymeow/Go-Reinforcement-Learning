@@ -50,4 +50,4 @@ func SemiGradientSarsa(state State, GetAction ActionFunction, valueFunction *Val
 	return steps
 }
 
-func lear
+func learn(state State, action string, target float64, vf 
