@@ -43,4 +43,11 @@ func SemiGradientSarsa(state State, GetAction ActionFunction, valueFunction *Val
 		newAction := GetAction(newState, valueFunction)
 		target := ValueOf(newState, newAction, valueFunction) + reward
 		learn(currentState, currentAction, target, valueFunction)
-		currentState = newSta
+		currentState = newState
+		currentAction = newAction
+
+	}
+	return steps
+}
+
+func lear
