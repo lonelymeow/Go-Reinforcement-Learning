@@ -52,4 +52,6 @@ func SemiGradientSarsa(state State, GetAction ActionFunction, valueFunction *Val
 
 func learn(state State, action string, target float64, vf *ValueFunction) {
 
-	activeTiles := state.Ge
+	activeTiles := state.GetActiveTiles(action)
+
+	estimations := make([]float6
