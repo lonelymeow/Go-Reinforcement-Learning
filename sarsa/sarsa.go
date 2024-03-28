@@ -54,4 +54,6 @@ func learn(state State, action string, target float64, vf *ValueFunction) {
 
 	activeTiles := state.GetActiveTiles(action)
 
-	estimations := make([]float6
+	estimations := make([]float64, vf.Features)
+
+	for feature := 0; fea
