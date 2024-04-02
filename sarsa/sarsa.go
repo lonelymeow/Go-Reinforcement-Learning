@@ -56,4 +56,5 @@ func learn(state State, action string, target float64, vf *ValueFunction) {
 
 	estimations := make([]float64, vf.Features)
 
-	for feature := 0; fea
+	for feature := 0; feature < vf.Features; feature++ {
+		for idx :=
