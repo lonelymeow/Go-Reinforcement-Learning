@@ -61,4 +61,6 @@ func learn(state State, action string, target float64, vf *ValueFunction) {
 			estimations[feature] += vf.Weights[activeTiles[feature][idx]]
 		}
 	}
-	delta := make([]float64, len(estimat
+	delta := make([]float64, len(estimations))
+
+	for idx := 0; idx < len(delta);
