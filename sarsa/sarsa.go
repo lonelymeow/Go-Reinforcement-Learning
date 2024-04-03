@@ -63,4 +63,5 @@ func learn(state State, action string, target float64, vf *ValueFunction) {
 	}
 	delta := make([]float64, len(estimations))
 
-	for idx := 0; idx < len(delta);
+	for idx := 0; idx < len(delta); idx++ {
+		delta[idx] = vf.Alpha * (target 
