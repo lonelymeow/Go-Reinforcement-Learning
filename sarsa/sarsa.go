@@ -69,4 +69,5 @@ func learn(state State, action string, target float64, vf *ValueFunction) {
 	}
 
 	for feature := range delta {
-		for tile := range activeTiles[
+		for tile := range activeTiles[feature] {
+			vf.Weights[activeTiles[feature
