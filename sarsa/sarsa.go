@@ -75,4 +75,4 @@ func learn(state State, action string, target float64, vf *ValueFunction) {
 	}
 }
 
-func ValueOf(s
+func ValueOf(state State, action string, vf *ValueFunction)
