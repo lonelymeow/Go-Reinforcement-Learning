@@ -75,4 +75,6 @@ func learn(state State, action string, target float64, vf *ValueFunction) {
 	}
 }
 
-func ValueOf(state State, action string, vf *ValueFunction)
+func ValueOf(state State, action string, vf *ValueFunction) float64 {
+	if state.InGoalState() {
+		return 0.
