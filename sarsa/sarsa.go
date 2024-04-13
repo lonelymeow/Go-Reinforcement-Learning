@@ -81,4 +81,6 @@ func ValueOf(state State, action string, vf *ValueFunction) float64 {
 	}
 
 	activeTiles := state.GetActiveTiles(action)
-	
+	estimations := make([]float64, vf.Features)
+
+	for 
