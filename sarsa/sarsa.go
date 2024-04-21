@@ -85,4 +85,8 @@ func ValueOf(state State, action string, vf *ValueFunction) float64 {
 
 	for feature := 0; feature < vf.Features; feature++ {
 		for idx := 0; idx < vf.Tilings; idx++ {
-			estimations[feature] += vf.Weights[activeTile
+			estimations[feature] += vf.Weights[activeTiles[feature][idx]]
+		}
+	}
+	val := 0.0
+	for
