@@ -90,4 +90,8 @@ func ValueOf(state State, action string, vf *ValueFunction) float64 {
 	}
 	val := 0.0
 	for estimation := range estimations {
-		val +=
+		val += estimations[estimation]
+	}
+
+	return val
+}
